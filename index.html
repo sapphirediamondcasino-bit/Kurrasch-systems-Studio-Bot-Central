@@ -1,277 +1,483 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kurrasch Systems Studios | Bot Network</title>
-  <link rel="icon" href="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #0a0a1a 0%, #010109 100%);
-      color: #f2f2f2;
-      overflow-x: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KSS Bot Central | Kurrasch Systems Studios</title>
+<link rel="icon" href="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-    /* --- Hero Header --- */
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: linear-gradient(135deg, #081027, #12092f);
-      position: relative;
-      overflow: hidden;
-    }
+<style>
+  /* ===== Reset & Base ===== */
+  :root{
+    --bg-dark: #03030a;
+    --panel-dark: rgba(8,6,20,0.6);
+    --accent-a: #8e2de2;
+    --accent-b: #4a00e0;
+    --neon: #b38cff;
+    --muted: #cfdaf0;
+    --card-border: rgba(160,120,255,0.18);
+    --glass: rgba(255,255,255,0.02);
+    --discord-btn-bg: linear-gradient(90deg,#4a00e0,#8e2de2);
+    --text: #eaf6ff;
+    --soft: rgba(255,255,255,0.04);
+  }
+  [data-theme="light"]{
+    --bg-dark: linear-gradient(180deg,#f6f7fb,#e9eaf4);
+    --panel-dark: rgba(255,255,255,0.85);
+    --card-border: rgba(120,80,200,0.12);
+    --neon: #5b3b9a;
+    --text: #0b0f14;
+    --soft: rgba(0,0,0,0.06);
+    --discord-btn-bg: linear-gradient(90deg,#8e2de2,#4a00e0);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    background: var(--bg-dark);
+    color: var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+    line-height:1.45;
+  }
 
-    header::before {
-      content: "";
-      position: absolute;
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, rgba(81,0,255,0.3), transparent 70%);
-      top: -25%;
-      left: -25%;
-      animation: glow 6s ease-in-out infinite alternate;
-    }
+  /* Canvas background: sits behind everything */
+  #matrix-canvas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    display:block;
+    width:100%;
+    height:100%;
+    background: transparent;
+    pointer-events:none; /* so clicks go through */
+  }
 
-    @keyframes glow {
-      from { transform: scale(1); opacity: 0.6; }
-      to { transform: scale(1.2); opacity: 1; }
-    }
+  /* Top navigation */
+  nav{
+    position:fixed;
+    z-index:50;
+    left:0;right:0;top:18px;
+    display:flex;
+    justify-content:center;
+    pointer-events:auto;
+    padding:8px;
+  }
+  .nav-inner{
+    width:100%;
+    max-width:1200px;
+    margin:0 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background: linear-gradient(180deg, rgba(6,8,15,0.28), rgba(6,8,15,0.14));
+    border-radius:14px;
+    padding:10px 14px;
+    box-shadow:0 8px 30px rgba(2,6,12,0.6);
+    border: 1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(6px);
+  }
+  .brand{
+    display:flex;align-items:center;gap:12px;
+  }
+  .brand img{width:56px;height:56px;object-fit:contain;border-radius:10px}
+  .brand .title{font-family:'Orbitron',sans-serif;font-weight:700;color:var(--neon);font-size:16px;letter-spacing:0.6px}
+  .nav-links{margin-left:12px;display:flex;gap:12px;align-items:center;flex:1}
+  .nav-links a{
+    color:var(--text);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600;font-size:13px;opacity:0.95;
+  }
+  .nav-links a:hover{background:var(--soft);transform:translateY(-2px)}
+  .nav-actions{display:flex;gap:10px;align-items:center}
 
-    header img {
-      width: 180px;
-      height: auto;
-      z-index: 2;
-      animation: float 4s ease-in-out infinite;
-    }
+  /* theme toggle */
+  .toggle{
+    width:44px;height:34px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.08));
+    display:inline-flex;align-items:center;padding:4px;cursor:pointer;border:1px solid rgba(255,255,255,0.04);
+  }
+  .toggle .knob{width:26px;height:26px;border-radius:999px;background:linear-gradient(180deg,#fff,#ddd);box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:transform .22s cubic-bezier(.2,.9,.3,1)}
+  [data-theme="dark"] .toggle{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18))}
+  [data-theme="light"] .toggle{background:linear-gradient(180deg, rgba(0,0,0,0.04), rgba(255,255,255,0.9))}
+  [data-theme="light"] .toggle .knob{transform:translateX(10px);}
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
+  /* Hero */
+  header.hero{
+    min-height:78vh;
+    padding:120px 20px 80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:10;position:relative;
+    text-align:center;
+  }
+  .hero img{width:200px;height:auto;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 20px 60px rgba(120,80,255,0.12))}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .hero h1{font-family:'Orbitron',sans-serif;font-size:2.6rem;margin-top:18px;color:var(--neon);text-shadow:0 10px 40px rgba(120,80,255,0.06)}
+  .hero p{max-width:880px;margin-top:18px;color:var(--muted);font-size:1.05rem}
 
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5em;
-      margin-top: 20px;
-      color: #b38cff;
-      letter-spacing: 1px;
-    }
+  .discord-cta{
+    margin-top:28px;display:inline-block;padding:12px 20px;border-radius:999px;background:var(--discord-btn-bg);color:#021018;font-weight:800;text-decoration:none;box-shadow:0 12px 40px rgba(78,28,160,0.12);
+  }
+  .discord-cta:hover{transform:translateY(-3px)}
 
-    header p {
-      font-size: 1.1em;
-      color: #ccc;
-      max-width: 700px;
-      margin: 20px auto;
-    }
+  /* Main content container */
+  .site{
+    position:relative;
+    z-index:10;
+    max-width:1200px;
+    margin:0 auto;
+    padding:40px 20px 120px;
+  }
 
-    .discord-btn {
-      margin-top: 30px;
-      background: linear-gradient(90deg, #4a00e0, #8e2de2);
-      padding: 14px 28px;
-      color: white;
-      font-weight: bold;
-      border-radius: 50px;
-      text-decoration: none;
-      box-shadow: 0 0 15px #8e2de2;
-      transition: all 0.3s ease;
-    }
+  /* Sections */
+  section{margin-top:40px;padding:12px 0}
+  .card{
+    background:var(--panel-dark);
+    border-radius:14px;padding:22px;border:1px solid var(--card-border);
+    box-shadow:0 20px 60px rgba(2,6,12,0.6);
+  }
 
-    .discord-btn:hover {
-      box-shadow: 0 0 30px #8e2de2;
-      transform: scale(1.05);
-    }
+  /* About */
+  #about .lead{font-size:1.05rem;color:var(--muted);max-width:900px;margin:18px auto;line-height:1.8}
 
-    /* --- About Section --- */
-    section#about {
-      padding: 80px 10%;
-      background: #0b0b19;
-      text-align: center;
-    }
+  /* Bots gallery */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+    margin-top:18px;
+  }
+  @media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:700px){.grid{grid-template-columns:1fr}}
+  .bot{
+    padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(8,4,26,0.45), rgba(0,0,0,0.36));transition:transform .22s cubic-bezier(.2,.9,.3,1),box-shadow .22s;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    min-height:320px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.02);
+  }
+  .bot:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(80,40,160,0.14)}
+  .bot .img{width:120px;height:120px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,0.03);margin-bottom:14px}
+  .bot .img img{width:100%;height:100%;object-fit:cover}
+  .bot h3{font-family:'Orbitron',sans-serif;margin-bottom:8px;color:var(--neon)}
+  .bot p{color:var(--muted);font-size:0.98rem;padding:0 4px;line-height:1.6}
+  .bot .meta{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;font-size:13px;color:var(--text);border:1px solid rgba(255,255,255,0.03)}
 
-    section#about h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2em;
-      margin-bottom: 25px;
-      color: #a56cff;
-    }
+  /* Footer */
+  footer{
+    margin-top:48px;padding:36px 20px;text-align:center;color:var(--muted);font-size:14px;
+    z-index:10;position:relative;
+  }
 
-    section#about p {
-      max-width: 900px;
-      margin: auto;
-      font-size: 1.1em;
-      line-height: 1.8em;
-      color: #d9d9e6;
-    }
+  /* small screens adjustments */
+  @media (max-width:520px){
+    .brand img{width:44px;height:44px}
+    .hero img{width:150px}
+    .hero h1{font-size:1.85rem}
+    .nav-links a{display:none} /* simplified nav on very small screens */
+  }
 
-    /* --- Bots Section --- */
-    section#bots {
-      padding: 100px 8%;
-      background: linear-gradient(180deg, #0b0b19, #04040a);
-    }
-
-    section#bots h2 {
-      font-family: 'Orbitron', sans-serif;
-      text-align: center;
-      margin-bottom: 50px;
-      color: #b38cff;
-      font-size: 2em;
-    }
-
-    .bot-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 40px;
-    }
-
-    .bot-card {
-      background: rgba(25, 15, 60, 0.6);
-      border: 1px solid rgba(170, 120, 255, 0.3);
-      border-radius: 18px;
-      text-align: center;
-      padding: 30px 20px;
-      box-shadow: 0 0 20px rgba(170, 120, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .bot-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 35px rgba(170, 120, 255, 0.6);
-    }
-
-    .bot-card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(170, 120, 255, 0.6);
-    }
-
-    .bot-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      color: #d3b3ff;
-      margin-bottom: 15px;
-      font-size: 1.2em;
-    }
-
-    .bot-card p {
-      font-size: 0.95em;
-      color: #ccc;
-      line-height: 1.5em;
-    }
-
-    /* --- Footer --- */
-    footer {
-      text-align: center;
-      padding: 40px;
-      background: #050512;
-      font-size: 0.9em;
-      color: #aaa;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    footer a {
-      color: #a56cff;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  /* Accessibility focus */
+  a:focus, button:focus{outline:2px dashed rgba(180,120,255,0.6);outline-offset:4px}
+</style>
 </head>
+<body data-theme="dark">
 
-<body>
-  <header>
-    <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="KSS Logo">
-    <h1>Kurrasch Systems Studios</h1>
-    <p>We build dreams — digital personalities powered by purpose, creativity, and emotion.  
-    Every bot tells a story, crafted by Kurrasch Systems’ innovative team.</p>
-    <a href="https://discord.gg/Aue9kV7uzw" target="_blank" class="discord-btn">Join Our Discord</a>
-  </header>
+<!-- Matrix canvas behind all content -->
+<canvas id="matrix-canvas" aria-hidden="true"></canvas>
 
-  <section id="about">
-    <h2>About Our Studio</h2>
-    <p>Kurrasch Systems Studios designs advanced, personality-driven bots that connect technology and art.  
-    Each project is inspired by emotion, legacy, and community — a way to preserve voices, ideas, and humor.  
-    While Game Killers Studios powers some of our systems, every creation here represents collaboration and heart.  
-    Diane Keaton’s bot stands as our foundation — free, timeless, and built to honor her presence.  
-    From entertainment to utility, our goal is simple: to make AI personal.</p>
+<!-- Top navigation -->
+<nav>
+  <div class="nav-inner">
+    <div class="brand" role="banner">
+      <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="KSS logo">
+      <div class="title">KSS Bot Central</div>
+    </div>
+
+    <div class="nav-links" role="navigation" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#bots">Bots</a>
+      <a href="#join">Join</a>
+    </div>
+
+    <div class="nav-actions">
+      <a class="discord-cta" href="https://discord.gg/Aue9kV7uzw" id="join" target="_blank" rel="noopener noreferrer">Join Discord</a>
+
+      <!-- theme toggle -->
+      <button class="toggle" id="theme-toggle" aria-label="Toggle light dark theme" title="Toggle theme">
+        <span class="knob" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="home">
+  <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="KSS logo">
+  <h1>Kurrasch Systems Studios</h1>
+  <p>We build dreams — cinematic personalities and utility bots crafted with care. Browse our showcased creations below; each bot carries its own story and spirit.</p>
+  <a class="discord-cta" href="https://discord.gg/Aue9kV7uzw" target="_blank" rel="noopener noreferrer">Join Our Discord</a>
+</header>
+
+<!-- Main site -->
+<main class="site" role="main" aria-live="polite">
+
+  <section id="about" aria-labelledby="about-h">
+    <div class="card">
+      <h2 id="about-h" style="font-family:Orbitron, sans-serif;font-size:1.35rem;color:var(--neon)">About Kurrasch Systems</h2>
+      <p class="lead">Kurrasch Systems Studios is the engineering soul of imagination — blending creative direction and technical precision to produce bots that behave like characters, collaborators, and tools. We build for music, events, moderation, and community; we build for heart.<br><br>
+      Most of our offerings have optional subscription tiers for advanced features. Diane Keaton’s bot is the single exception — it is completely and forever free. The Systems team powers many bots while partnering studios, such as Game Killer Studio, retain administrative control where appropriate.</p>
+    </div>
   </section>
 
-  <section id="bots">
-    <h2>Featured Bots</h2>
-    <div class="bot-grid">
+  <section id="bots" aria-labelledby="bots-h">
+    <h2 id="bots-h" style="font-family:Orbitron, sans-serif;font-size:1.5rem;text-align:center;color:var(--neon);margin-bottom:18px">Featured Bots</h2>
 
-      <div class="bot-card">
-        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432304819158126734/Diane_Keaton_2012-1_cropped_cropped.jpg?ex=6900914f&is=68ff3fcf&hm=457a9151c29044b2bfacd0f2b014833f795e47c480811766fedf652c53d62694&" alt="Diane Keaton Bot">
-        <h3>Diane Keaton™</h3>
-        <p>The first KSS creation — made with heart, humor, and warmth. Powered by Game Killers Studios, but fully free forever.  
-        Diane Keaton’s Bot is a living tribute and will never charge for her features.</p>
-      </div>
+    <div class="grid" role="list">
+      <!-- Diane -->
+      <article class="bot" role="listitem" aria-labelledby="diane-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432304819158126734/Diane_Keaton_2012-1_cropped_cropped.jpg?ex=6900914f&is=68ff3fcf&hm=457a9151c29044b2bfacd0f2b014833f795e47c480811766fedf652c53d62694&" alt="Diane Keaton bot image"></div>
+        <h3 id="diane-title">Diane Keaton™</h3>
+        <p>Diane Keaton is our founding character bot — centered around an arcade experience and designed to be warm, nostalgic, and always free. The bot serves as an approachable anchor, welcoming players and guiding them through the memorial arcade experience. Systems provides her technical power; Game Killer Studio holds administrative ownership.</p>
+        <div class="meta"><span class="pill">Completely free</span><span class="pill">Arcade-first</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://static.wixstatic.com/media/b9bfc7_303b6fe981b44d438bdf419e7f0c7dd0~mv2.webp" alt="Betty White Bot">
-        <h3>Betty White™</h3>
-        <p>Inspired by the golden laughter of a legend. A digital soul built to brighten any server — pure joy, no pretense.</p>
-      </div>
+      <!-- Betty -->
+      <article class="bot" role="listitem" aria-labelledby="betty-title">
+        <div class="img"><img src="https://static.wixstatic.com/media/b9bfc7_303b6fe981b44d438bdf419e7f0c7dd0~mv2.webp" alt="Betty White bot image"></div>
+        <h3 id="betty-title">Betty White™</h3>
+        <p>Betty White was conceived to humanize moderation — gentle reminders, curated welcome experiences, and playful micro-interactions. She makes communities feel like family while preserving structure and safety.</p>
+        <div class="meta"><span class="pill">Community care</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://static.wixstatic.com/media/b9bfc7_dbf16b4f1dd949f0a60a0c3638e30794~mv2.webp" alt="Robin Williams Bot">
-        <h3>Robin Williams™</h3>
-        <p>A tribute to creativity and compassion. Robin’s bot embodies humor, empathy, and boundless imagination.</p>
-      </div>
+      <!-- Robin -->
+      <article class="bot" role="listitem" aria-labelledby="robin-title">
+        <div class="img"><img src="https://static.wixstatic.com/media/b9bfc7_dbf16b4f1dd949f0a60a0c3638e30794~mv2.webp" alt="Robin Williams bot image"></div>
+        <h3 id="robin-title">Robin Williams</h3>
+        <p>Robin is a playful, improv-like personality designed to spark spontaneous joy. Built from the spirit of improv theatre and community sketch, Robin keeps chat lively with persona-driven interactions tuned by server owners.</p>
+        <div class="meta"><span class="pill">Improv & entertainment</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://static.wixstatic.com/media/b9bfc7_805cceba65204a8c9bf1e106e3f67f3d~mv2.png" alt="Stan’s Beat Bot">
-        <h3>Stan’s Beat Bot™</h3>
-        <p>Where rhythm meets AI. Crafted to bring life to your Discord through smart beats and musical intuition.</p>
-      </div>
+      <!-- Stan's Beat -->
+      <article class="bot" role="listitem" aria-labelledby="stan-title">
+        <div class="img"><img src="https://static.wixstatic.com/media/b9bfc7_805cceba65204a8c9bf1e106e3f67f3d~mv2.png" alt="Stan's Beat bot image"></div>
+        <h3 id="stan-title">Stan’s Beat Bot™</h3>
+        <p>Built by producers for producers — Stan’s Beat Bot facilitates sharing beats, scheduling listening sessions, and capturing structured feedback. A hub for collaboration and discovery.</p>
+        <div class="meta"><span class="pill">Music & collaboration</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527132463156/NHI_1.png?ex=69003ef8&is=68feed78&hm=511076ef0e893859b3e70da09fe78e656f7bc69a283e7c147f03e0e31d1a1e16&" alt="NHI Conference">
-        <h3>NHI Conference™</h3>
-        <p>Designed for deep discussion, discovery, and cross-platform communication. The next generation of collaboration tools.</p>
-      </div>
+      <!-- NHI Conference -->
+      <article class="bot" role="listitem" aria-labelledby="nhiconf-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527132463156/NHI_1.png?ex=69003ef8&is=68feed78&hm=511076ef0e893859b3e70da09fe78e656f7bc69a283e7c147f03e0e31d1a1e16&" alt="NHI Conference bot image"></div>
+        <h3 id="nhiconf-title">NHI Conference™</h3>
+        <p>Made for events and multi-room coordination — NHI Conference handles schedules, reminders, and attendee flows so large communities run smoothly without losing human touch.</p>
+        <div class="meta"><span class="pill">Events & scheduling</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527409418331/NHI_3.png?ex=69003ef8&is=68feed78&hm=ce70d86718e49d8c6504060b20f46a186d1a1ad117d62ba7001f37ff7d7d0703&" alt="NHI Bot">
-        <h3>NHI™</h3>
-        <p>Part of the same innovation as the conference bot, this version focuses on fast responses and clear conversation management.</p>
-      </div>
+      <!-- NHI -->
+      <article class="bot" role="listitem" aria-labelledby="nhi-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527409418331/NHI_3.png?ex=69003ef8&is=68feed78&hm=ce70d86718e49d8c6504060b20f46a186d1a1ad117d62ba7001f37ff7d7d0703&" alt="NHI bot image"></div>
+        <h3 id="nhi-title">NHI™</h3>
+        <p>The Systems' integration toolkit — automations and connectors for teams who need repeatable, reliable server operations and data flows.</p>
+        <div class="meta"><span class="pill">Integrations</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://static.wixstatic.com/media/b9bfc7_771c19265cf24a8d94dca9374e6c9adc~mv2.webp" alt="KS Application Bot">
-        <h3>KS Application Bot™</h3>
-        <p>The official Kurrasch Systems helper — streamlining applications, approvals, and custom submissions for servers worldwide.</p>
-      </div>
+      <!-- KS Application -->
+      <article class="bot" role="listitem" aria-labelledby="ks-title">
+        <div class="img"><img src="https://static.wixstatic.com/media/b9bfc7_771c19265cf24a8d94dca9374e6c9adc~mv2.webp" alt="KS Application bot image"></div>
+        <h3 id="ks-title">KS Application Bot™</h3>
+        <p>KS Application simplifies hiring and onboarding — structured application flows, role checks, and history logs to keep volunteer teams coordinated and efficient.</p>
+        <div class="meta"><span class="pill">Onboarding</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432308032179540058/Midwest_Weather_Bot_2.webp?ex=6900944d&is=68ff42cd&hm=c27203aa7e229375cab7fbb529f382596d3d6d542908068d5c68ce3b23d09825&" alt="Midwest Weather Bot">
-        <h3>Midwest Weather™</h3>
-        <p>Born from the heartland — tracking and forecasting weather across the Midwest. Intelligent, responsive, and reliable.</p>
-      </div>
+      <!-- Midwest Weather -->
+      <article class="bot" role="listitem" aria-labelledby="midwest-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432308032179540058/Midwest_Weather_Bot_2.webp?ex=6900944d&is=68ff42cd&hm=c27203aa7e229375cab7fbb529f382596d3d6d542908068d5c68ce3b23d09825&" alt="Midwest Weather bot image"></div>
+        <h3 id="midwest-title">Midwest Weather™</h3>
+        <p>Built for regional clarity — choose West/Mid/East, then state then town to get focused local forecasts. Fast, conversational, and customizable.</p>
+        <div class="meta"><span class="pill">Regional forecasts</span></div>
+      </article>
 
-      <div class="bot-card">
-        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="RBX Bot">
-        <h3>RBX™</h3>
-        <p>Roblox integration and server connection bot. Built for developers, gamers, and communities to interact seamlessly.</p>
-      </div>
+      <!-- RBX -->
+      <article class="bot" role="listitem" aria-labelledby="rbx-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="RBX bot image"></div>
+        <h3 id="rbx-title">RBX™</h3>
+        <p>A Roblox-focused approach to community tooling and docs — designed for clarity and easy adoption by players and moderators.</p>
+        <div class="meta"><span class="pill">Roblox-focused</span></div>
+      </article>
 
     </div>
   </section>
 
+  <section aria-labelledby="closing">
+    <div class="card" style="margin-top:28px">
+      <h3 id="closing" style="font-family:Orbitron, sans-serif;color:var(--neon)">Want a custom bot?</h3>
+      <p style="color:var(--muted)">We build bespoke bots for channels, studios, and artists. If you want a custom personality, a studio integration, or a production-ready system — join our Discord and our team will walk you through options and pricing.</p>
+    </div>
+  </section>
+
   <footer>
-    <p>© 2025 Kurrasch Systems Studios — Dreams Engineered. | <a href="https://discord.gg/Aue9kV7uzw" target="_blank">Join Our Discord</a></p>
+    <div>© <span id="year"></span> Kurrasch Systems Studios — Dreams Engineered. <a href="https://discord.gg/Aue9kV7uzw" target="_blank" rel="noopener noreferrer">Join our Discord</a></div>
+    <div style="margin-top:8px;color:var(--muted)">Game Killer Studio manages administrative ownership for some bots (e.g. Diane Keaton). Systems provides the engineering power.</div>
   </footer>
+</main>
+
+<script>
+/* ===========================
+   Matrix Canvas: 0 (red) & 1 (baby-blue)
+   Optimized and responsive.
+   =========================== */
+
+(() => {
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let width = 0;
+  let height = 0;
+  let columns = [];
+  let fontSize = 18;
+  let columnsCount = 0;
+  let animationId = null;
+  const symbols = ['0', '1'];
+
+  // Set number of drops depending on device width (performance)
+  function calcSettings() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    // choose font size relative to width
+    fontSize = Math.max(12, Math.min(20, Math.floor(width / 80)));
+    columnsCount = Math.floor(width / fontSize);
+    // On tiny screens reduce columns a lot
+    if (width < 420) { columnsCount = Math.floor(width / (fontSize * 1.8)); }
+    // Create column positions
+    columns = new Array(columnsCount).fill(0).map(() => ({
+      y: Math.random() * -1000, // start at random positions above
+      speed: (Math.random() * 0.6 + 0.6) * (fontSize / 14) // scale with font
+    }));
+    ctx.font = `${fontSize}px monospace`;
+  }
+
+  function draw() {
+    // paint a slightly transparent black to create trailing effect
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fillRect(0, 0, width, height);
+
+    for (let i = 0; i < columnsCount; i++) {
+      const col = columns[i];
+      // choose symbol (0 or 1)
+      const char = symbols[(Math.random() > 0.5) ? 0 : 1];
+
+      // choose color: '0' -> red (#ff3b3b), '1' -> baby-blue (#9fe8ff)
+      const color = (char === '0') ? '#ff3b3b' : '#9fe8ff';
+
+      ctx.fillStyle = color;
+      // slight glow effect using shadow (kept minimal for perf)
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 6;
+      // draw character
+      const x = i * fontSize;
+      ctx.fillText(char, x, col.y);
+
+      // small highlight for newer characters
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      ctx.fillRect(x, col.y - fontSize * 0.6, fontSize, fontSize * 0.3);
+
+      // move down
+      col.y += col.speed + (Math.random() * 1.6);
+
+      // reset occasionally
+      if (col.y > height + Math.random() * 1000) {
+        col.y = -Math.random() * 200;
+      }
+    }
+    animationId = requestAnimationFrame(draw);
+  }
+
+  // Initialize and handle retunes
+  function start() {
+    cancelAnimationFrame(animationId);
+    calcSettings();
+    // clear and use a soft transparent base so content is readable
+    ctx.clearRect(0,0,width,height);
+    draw();
+  }
+
+  // Start on load
+  start();
+
+  // Throttle resize to avoid jank
+  let rT;
+  window.addEventListener('resize', () => {
+    clearTimeout(rT);
+    rT = setTimeout(() => start(), 220);
+  });
+
+  // pause animation on tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(animationId);
+    else start();
+  });
+})();
+
+/* ===========================
+   Theme toggle & smooth scroll
+   =========================== */
+
+// set current year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// retain theme preference in localStorage
+const root = document.documentElement;
+const body = document.body;
+const toggle = document.getElementById('theme-toggle');
+
+function setTheme(theme){
+  body.setAttribute('data-theme', theme);
+  // move knob visual:
+  if (theme === 'light') toggle.querySelector('.knob').style.transform = 'translateX(10px)';
+  else toggle.querySelector('.knob').style.transform = 'translateX(0)';
+  try { localStorage.setItem('kss_theme', theme); } catch(e) {}
+}
+
+toggle.addEventListener('click', () => {
+  const current = body.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+});
+
+// initialize from storage or system preference
+(function initTheme(){
+  let saved = null;
+  try { saved = localStorage.getItem('kss_theme'); } catch(e) {}
+  if (saved) setTheme(saved);
+  else {
+    // prefer dark by default
+    setTheme('dark');
+  }
+})();
+
+// Smooth scrolling for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', function(e){
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+      // small offset for fixed nav (scroll a bit up)
+      window.scrollBy(0,-18);
+    }
+  });
+});
+
+/* Accessibility: allow toggle via keyboard (space/enter) */
+toggle.addEventListener('keydown', (e) => {
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    toggle.click();
+  }
+});
+</script>
 </body>
 </html>
+
