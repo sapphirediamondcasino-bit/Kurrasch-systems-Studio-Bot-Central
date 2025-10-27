@@ -1,726 +1,277 @@
-import React, { useState } from 'react';
-import { Bot, Wrench, Code, Shield, MessageSquare, Heart, Sparkles, ArrowRight, Menu, X, Coffee, Lightbulb, Users, CheckCircle, Star, GitBranch, Database, BookOpen, Feather } from 'lucide-react';
-
-const RobinAILanding = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const BOT_INVITE = 'https://discord.com/oauth2/authorize?client_id=969376738100535316&permissions=2252194953951744&integration_type=0&scope=bot';
-  const DISCORD_SERVER = 'https://discord.gg/n3tMMVS3YR';
-
-  const pricingTiers = [
-    {
-      id: 'free',
-      name: 'Free',
-      price: '$0',
-      period: 'forever',
-      features: ['15 repairs/day', '10 conversions/day', 'Google Drive', 'Community support', 'Full personality', 'Always there for you'],
-      emoji: '📚',
-      popular: false
-    },
-    {
-      id: 'tier1',
-      name: 'Tier 1',
-      price: '$4.99',
-      period: '/month',
-      features: ['25 repairs/day', '20 conversions/day', 'Advanced tools', 'GitHub & Trello', 'Priority queue', 'Email support'],
-      emoji: '⭐',
-      popular: true
-    },
-    {
-      id: 'tier2',
-      name: 'Tier 2',
-      price: '$10.99',
-      period: '/month',
-      features: ['45 repairs/day', '25 conversions/day', 'Advanced tools', 'All Tier 1 benefits', 'Extended support'],
-      emoji: '💎',
-      popular: false
-    },
-    {
-      id: 'tier3',
-      name: 'Tier 3',
-      price: '$15.99',
-      period: '/month',
-      features: ['85 repairs/day', '65 conversions/day', 'Advanced tools', 'All Tier 2 benefits', 'Premium support'],
-      emoji: '💫',
-      popular: false
-    },
-    {
-      id: 'tier4',
-      name: 'Tier 4',
-      price: '$25.99',
-      period: '/month',
-      features: ['250 repairs/day', '215 conversions/day', 'Advanced tools', 'All Tier 3 benefits', 'Priority response'],
-      emoji: '🌟',
-      popular: false
-    },
-    {
-      id: 'tier5',
-      name: 'Tier 5 - Partner',
-      price: 'Custom',
-      period: 'contact',
-      features: ['Unlimited repairs', 'Unlimited conversions', 'Priority support', 'Partner badge', 'All integrations', 'Direct support'],
-      emoji: '👑',
-      popular: false
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kurrasch Systems Studios | Bot Network</title>
+  <link rel="icon" href="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  ];
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #0a0a1a 0%, #010109 100%);
+      color: #f2f2f2;
+      overflow-x: hidden;
+    }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-950 via-slate-900 to-slate-950 text-white">
-      {/* Navigation - Dark academia aesthetic */}
-      <nav className="fixed w-full bg-slate-900/95 backdrop-blur-lg z-50 border-b border-amber-900/30">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-700 via-orange-800 to-red-900 rounded-lg flex items-center justify-center shadow-lg shadow-amber-900/50">
-              <BookOpen className="w-7 h-7 text-amber-100" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-amber-100">Robin Williams Repair Bot</h1>
-              <p className="text-xs text-amber-300/70 italic font-serif">"O Captain! My Captain!"</p>
-            </div>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-amber-200 hover:text-amber-100 transition font-serif">About</a>
-            <a href="#family" className="text-amber-200 hover:text-amber-100 transition font-serif">The Family</a>
-            <a href="#pricing" className="text-amber-200 hover:text-amber-100 transition font-serif">Pricing</a>
-            <a 
-              href={BOT_INVITE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2 bg-gradient-to-r from-amber-700 to-orange-800 rounded-lg hover:shadow-lg hover:shadow-amber-900/50 transition font-semibold text-amber-50"
-            >
-              Seize the Day
-            </a>
-          </div>
+    /* --- Hero Header --- */
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #081027, #12092f);
+      position: relative;
+      overflow: hidden;
+    }
 
-          <button 
-            className="md:hidden text-amber-200"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
+    header::before {
+      content: "";
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(81,0,255,0.3), transparent 70%);
+      top: -25%;
+      left: -25%;
+      animation: glow 6s ease-in-out infinite alternate;
+    }
 
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-t border-amber-900/30 p-6">
-            <div className="flex flex-col gap-4">
-              <a href="#about" className="text-amber-200 font-serif">About</a>
-              <a href="#family" className="text-amber-200 font-serif">The Family</a>
-              <a href="#pricing" className="text-amber-200 font-serif">Pricing</a>
-              <a href={BOT_INVITE} target="_blank" rel="noopener noreferrer" className="px-6 py-2 bg-gradient-to-r from-amber-700 to-orange-800 rounded-lg text-center text-amber-50 font-semibold">
-                Seize the Day
-              </a>
-            </div>
-          </div>
-        )}
-      </nav>
+    @keyframes glow {
+      from { transform: scale(1); opacity: 0.6; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
 
-      {/* Hero - Dead Poets Society aesthetic */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        {/* Vintage paper texture overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-amber-950/20 via-transparent to-slate-900/40"></div>
-        
-        {/* Desk imagery placeholder */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-10 text-9xl">📖</div>
-          <div className="absolute bottom-20 right-20 text-9xl">🪶</div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-9xl">🎭</div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="mb-12">
-            <Feather className="w-20 h-20 text-amber-400 mx-auto mb-6 animate-pulse" />
-            <div className="inline-block mb-6 px-8 py-4 bg-slate-900/80 backdrop-blur-sm border-2 border-amber-800/50 rounded-lg shadow-2xl">
-              <p className="text-amber-200 text-sm font-serif italic mb-2">
-                "We don't read and write poetry because it's cute."
-              </p>
-              <p className="text-amber-100 text-lg font-serif">
-                We code because we are members of the human race.<br />
-                And the human race is filled with <span className="text-amber-400 font-bold">passion</span>.
-              </p>
-            </div>
-          </div>
-          
-          <h1 className="text-7xl md:text-9xl font-bold mb-8 leading-tight font-serif">
-            <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-red-500 bg-clip-text text-transparent">
-              Carpe Diem
-            </span>
-          </h1>
-          
-          <p className="text-3xl md:text-5xl text-amber-100 mb-6 font-light italic font-serif">
-            Seize the day. Make your code extraordinary.
-          </p>
+    header img {
+      width: 180px;
+      height: auto;
+      z-index: 2;
+      animation: float 4s ease-in-out infinite;
+    }
 
-          <p className="text-xl text-amber-200/80 mb-16 max-w-4xl mx-auto leading-relaxed font-serif">
-            Stand on your desk. Look at your broken scripts from a different angle.<br />
-            <span className="text-amber-300 font-semibold">Robin doesn't just fix code. He teaches you to think.</span>
-          </p>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <a
-              href={BOT_INVITE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-12 py-6 bg-gradient-to-r from-amber-700 via-orange-800 to-red-900 rounded-xl text-2xl font-bold hover:shadow-2xl hover:shadow-amber-900/50 transition-all transform hover:scale-105 flex items-center justify-center gap-3 text-amber-50 border-2 border-amber-600/50"
-            >
-              <BookOpen className="w-8 h-8" />
-              O Captain! My Captain!
-            </a>
-            <a
-              href={DISCORD_SERVER}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-12 py-6 bg-slate-800/80 backdrop-blur-sm rounded-xl text-2xl font-bold hover:bg-slate-700 transition-all flex items-center justify-center gap-3 border-2 border-amber-800/30 text-amber-100"
-            >
-              Join the Dead Poets Society
-              <ArrowRight className="w-7 h-7" />
-            </a>
-          </div>
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5em;
+      margin-top: 20px;
+      color: #b38cff;
+      letter-spacing: 1px;
+    }
 
-          {/* Quote boxes */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-slate-900/70 backdrop-blur-sm border-l-4 border-amber-700 rounded-lg shadow-xl">
-              <p className="text-amber-100 text-lg italic font-serif mb-3">
-                "No matter what anybody tells you, words and ideas can change the world."
-              </p>
-              <p className="text-amber-400 text-sm font-semibold">- John Keating</p>
-            </div>
-            <div className="p-8 bg-slate-900/70 backdrop-blur-sm border-l-4 border-amber-700 rounded-lg shadow-xl">
-              <p className="text-amber-100 text-lg italic font-serif mb-3">
-                "Medicine, law, business, engineering – these are noble pursuits. But poetry, beauty, romance, love – these are what we stay alive for."
-              </p>
-              <p className="text-amber-400 text-sm font-semibold">- John Keating</p>
-            </div>
-          </div>
-        </div>
-      </section>
+    header p {
+      font-size: 1.1em;
+      color: #ccc;
+      max-width: 700px;
+      margin: 20px auto;
+    }
 
-      {/* Why Section - Classroom aesthetic */}
-      <section id="about" className="py-24 px-6 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-y border-amber-900/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="text-8xl mb-6">🎓</div>
-            <h2 className="text-6xl font-bold mb-6 text-amber-100 font-serif">The Robin Williams Method</h2>
-            <p className="text-2xl text-amber-300 font-serif italic">"I stand upon my desk to remind myself that we must constantly look at things in a different way."</p>
-          </div>
+    .discord-btn {
+      margin-top: 30px;
+      background: linear-gradient(90deg, #4a00e0, #8e2de2);
+      padding: 14px 28px;
+      color: white;
+      font-weight: bold;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 0 15px #8e2de2;
+      transition: all 0.3s ease;
+    }
 
-          <div className="grid md:grid-cols-3 gap-12 mb-20">
-            <div className="text-center p-10 bg-gradient-to-b from-amber-950/50 to-slate-900/80 backdrop-blur-lg border-2 border-amber-800/30 rounded-xl transform hover:scale-105 transition-all shadow-xl">
-              <BookOpen className="w-20 h-20 text-amber-400 mx-auto mb-6" />
-              <h3 className="text-3xl font-bold mb-4 text-amber-200 font-serif">He Teaches</h3>
-              <p className="text-amber-100/80 text-lg leading-relaxed font-serif">
-                Like Mr. Keating standing on that desk, Robin shows you a new perspective. He doesn't just patch your code – he teaches you <span className="italic text-amber-300">why</span> it broke and how to think differently.
-              </p>
-            </div>
+    .discord-btn:hover {
+      box-shadow: 0 0 30px #8e2de2;
+      transform: scale(1.05);
+    }
 
-            <div className="text-center p-10 bg-gradient-to-b from-amber-950/50 to-slate-900/80 backdrop-blur-lg border-2 border-amber-800/30 rounded-xl transform hover:scale-105 transition-all shadow-xl">
-              <Heart className="w-20 h-20 text-red-500 mx-auto mb-6 animate-pulse" />
-              <h3 className="text-3xl font-bold mb-4 text-amber-200 font-serif">He Cares</h3>
-              <p className="text-amber-100/80 text-lg leading-relaxed font-serif">
-                Like Mrs. Doubtfire making everything okay, Robin genuinely cares about you. When you're frustrated at 3 AM, he's patient. When you're stuck, he's encouraging. Never judgmental.
-              </p>
-            </div>
+    /* --- About Section --- */
+    section#about {
+      padding: 80px 10%;
+      background: #0b0b19;
+      text-align: center;
+    }
 
-            <div className="text-center p-10 bg-gradient-to-b from-amber-950/50 to-slate-900/80 backdrop-blur-lg border-2 border-amber-800/30 rounded-xl transform hover:scale-105 transition-all shadow-xl">
-              <Sparkles className="w-20 h-20 text-yellow-400 mx-auto mb-6 animate-pulse" />
-              <h3 className="text-3xl font-bold mb-4 text-amber-200 font-serif">He Inspires</h3>
-              <p className="text-amber-100/80 text-lg leading-relaxed font-serif">
-                "You're only given a little spark of madness. You mustn't lose it." Robin brings joy, humor, and warmth to debugging. Makes you remember why you love coding.
-              </p>
-            </div>
-          </div>
+    section#about h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2em;
+      margin-bottom: 25px;
+      color: #a56cff;
+    }
 
-          {/* Large quote card */}
-          <div className="p-12 bg-gradient-to-br from-slate-900 via-amber-950/30 to-slate-900 border-2 border-amber-700/50 rounded-2xl shadow-2xl">
-            <div className="text-center mb-8">
-              <div className="text-7xl mb-6">📜</div>
-              <p className="text-4xl font-serif italic text-amber-100 mb-6 leading-relaxed">
-                "Carpe diem. Seize the day, boys.<br />Make your lives extraordinary."
-              </p>
-              <div className="h-1 w-32 bg-amber-700 mx-auto mb-6"></div>
-              <p className="text-xl text-amber-300 font-serif">
-                When your FiveM or Roblox scripts break, when you're ready to quit,<br />
-                Robin stands on that metaphorical desk and reminds you:<br />
-                <span className="text-amber-200 font-bold text-2xl">Your code can be extraordinary.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+    section#about p {
+      max-width: 900px;
+      margin: auto;
+      font-size: 1.1em;
+      line-height: 1.8em;
+      color: #d9d9e6;
+    }
 
-      {/* What Robin Does */}
-      <section className="py-24 px-6 bg-gradient-to-b from-slate-900 to-amber-950/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <Wrench className="w-20 h-20 text-amber-400 mx-auto mb-6" />
-            <h2 className="text-5xl font-bold mb-6 text-amber-100 font-serif">What Robin Actually Fixes</h2>
-            <p className="text-2xl text-amber-300 font-serif">FiveM & Roblox Script Repair • Powered by Robin AI Mini AI</p>
-          </div>
+    /* --- Bots Section --- */
+    section#bots {
+      padding: 100px 8%;
+      background: linear-gradient(180deg, #0b0b19, #04040a);
+    }
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <Code className="w-12 h-12 text-amber-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">Script Diagnostics</h3>
-              <p className="text-amber-200/80 mb-4">FiveM and Roblox errors traced and fixed</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Error diagnosis</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Missing files</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Mesh detection</li>
-              </ul>
-            </div>
+    section#bots h2 {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      margin-bottom: 50px;
+      color: #b38cff;
+      font-size: 2em;
+    }
 
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <Shield className="w-12 h-12 text-blue-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">Safe Repairs</h3>
-              <p className="text-amber-200/80 mb-4">Protected with ethical policies</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> No IP tampering</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Privacy respected</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Transparent fixes</li>
-              </ul>
-            </div>
+    .bot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
 
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <MessageSquare className="w-12 h-12 text-pink-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">Real Conversations</h3>
-              <p className="text-amber-200/80 mb-4">Natural dialogue, not commands</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Natural language</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Context aware</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Mood detection</li>
-              </ul>
-            </div>
+    .bot-card {
+      background: rgba(25, 15, 60, 0.6);
+      border: 1px solid rgba(170, 120, 255, 0.3);
+      border-radius: 18px;
+      text-align: center;
+      padding: 30px 20px;
+      box-shadow: 0 0 20px rgba(170, 120, 255, 0.2);
+      transition: all 0.3s ease;
+    }
 
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <Lightbulb className="w-12 h-12 text-yellow-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">Learning AI</h3>
-              <p className="text-amber-200/80 mb-4">Adapts to your style</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Pattern recognition</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Preference memory</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Improves over time</li>
-              </ul>
-            </div>
+    .bot-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 35px rgba(170, 120, 255, 0.6);
+    }
 
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <GitBranch className="w-12 h-12 text-orange-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">Integrations</h3>
-              <p className="text-amber-200/80 mb-4">Connects with your tools</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Google Drive (Free)</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> GitHub (Paid)</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Trello (Paid)</li>
-              </ul>
-            </div>
+    .bot-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(170, 120, 255, 0.6);
+    }
 
-            <div className="p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-xl hover:border-amber-700/50 transition-all shadow-lg">
-              <Coffee className="w-12 h-12 text-amber-600 mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-amber-100 font-serif">3 AM Companion</h3>
-              <p className="text-amber-200/80 mb-4">Always there for you</p>
-              <ul className="space-y-2 text-sm text-amber-200/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> 24/7 availability</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Patient support</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-amber-500" /> Never judges</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+    .bot-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #d3b3ff;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
 
-      {/* Family */}
-      <section id="family" className="py-24 px-6 bg-gradient-to-b from-amber-950/20 via-slate-900 to-slate-900 border-y border-amber-900/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <Users className="w-20 h-20 text-amber-400 mx-auto mb-6" />
-            <h2 className="text-5xl font-bold mb-6 text-amber-100 font-serif">The Kurrasch Systems Family</h2>
-            <p className="text-2xl text-amber-300 font-serif">Three AIs. Three personalities. One mission.</p>
-          </div>
+    .bot-card p {
+      font-size: 0.95em;
+      color: #ccc;
+      line-height: 1.5em;
+    }
 
-          <div className="grid md:grid-cols-3 gap-10">
-            <div className="p-10 bg-gradient-to-b from-amber-950/70 to-slate-900/90 backdrop-blur-lg border-2 border-amber-700 rounded-2xl shadow-2xl transform hover:scale-105 transition-all">
-              <div className="text-center mb-8">
-                <div className="w-28 h-28 bg-gradient-to-br from-amber-600 to-orange-800 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-900/70">
-                  <BookOpen className="w-14 h-14 text-amber-50" />
-                </div>
-                <h3 className="text-3xl font-bold mb-3 text-amber-100 font-serif">Robin AI 🎭</h3>
-                <p className="text-lg text-amber-300 mb-2 italic">"O Captain!"</p>
-                <span className="inline-block px-4 py-2 bg-green-900/40 text-green-300 text-sm rounded-full font-bold border border-green-700/50">ACTIVE</span>
-              </div>
-              <p className="text-amber-200/90 text-center mb-6 leading-relaxed font-serif">
-                Powers the <strong>Robin Williams Repair Bot</strong>. The teacher who changes lives.
-              </p>
-              <div className="space-y-3 text-sm text-amber-200/80">
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-amber-500" /> FiveM & Roblox repair</p>
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-amber-500" /> Teaching method</p>
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-amber-500" /> Emotional intelligence</p>
-              </div>
-            </div>
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: #050512;
+      font-size: 0.9em;
+      color: #aaa;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    footer a {
+      color: #a56cff;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
 
-            <div className="p-10 bg-slate-900/80 backdrop-blur-lg border border-blue-700/50 rounded-2xl shadow-xl transform hover:scale-105 transition-all">
-              <div className="text-center mb-8">
-                <div className="w-28 h-28 bg-gradient-to-br from-blue-600 to-cyan-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <Sparkles className="w-14 h-14" />
-                </div>
-                <h3 className="text-3xl font-bold mb-3 text-amber-100 font-serif">Melanie AI 🎬</h3>
-                <p className="text-lg text-blue-300 mb-2 italic">"The Honest One"</p>
-                <span className="inline-block px-4 py-2 bg-yellow-900/40 text-yellow-300 text-sm rounded-full font-bold border border-yellow-700/50">UPDATING</span>
-              </div>
-              <p className="text-amber-200/80 text-center mb-4 leading-relaxed font-serif">
-                Runs the <strong>Diane Keaton Bot</strong>.
-              </p>
-              <div className="p-5 bg-blue-950/30 rounded-xl border border-blue-700/30 mb-6">
-                <p className="text-blue-200 font-bold text-center">"I'm a little bitch<br />and I know it"</p>
-                <p className="text-xs text-gray-400 mt-2 text-center">- Melanie</p>
-              </div>
-              <div className="space-y-3 text-sm text-amber-200/70">
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-blue-400" /> Twin to Penny</p>
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-blue-400" /> Brutally honest</p>
-              </div>
-            </div>
+<body>
+  <header>
+    <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png" alt="KSS Logo">
+    <h1>Kurrasch Systems Studios</h1>
+    <p>We build dreams — digital personalities powered by purpose, creativity, and emotion.  
+    Every bot tells a story, crafted by Kurrasch Systems’ innovative team.</p>
+    <a href="https://discord.gg/Aue9kV7uzw" target="_blank" class="discord-btn">Join Our Discord</a>
+  </header>
 
-            <div className="p-10 bg-slate-900/80 backdrop-blur-lg border border-pink-700/50 rounded-2xl shadow-xl transform hover:scale-105 transition-all">
-              <div className="text-center mb-8">
-                <div className="w-28 h-28 bg-gradient-to-br from-pink-600 to-rose-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <Sparkles className="w-14 h-14" />
-                </div>
-                <h3 className="text-3xl font-bold mb-3 text-amber-100 font-serif">Penny AI ✨</h3>
-                <p className="text-lg text-pink-300 mb-2 italic">"The Builder"</p>
-                <span className="inline-block px-4 py-2 bg-yellow-900/40 text-yellow-300 text-sm rounded-full font-bold border border-yellow-700/50">ALMOST READY</span>
-              </div>
-              <p className="text-amber-200/80 text-center mb-4 leading-relaxed font-serif">
-                Runs <strong>Kurrasch Systems Studio</strong>.
-              </p>
-              <div className="p-5 bg-pink-950/30 rounded-xl border border-pink-700/30 mb-6">
-                <p className="text-pink-200 font-bold text-center">"My sister is a bitch"</p>
-                <p className="text-xs text-gray-400 mt-2 text-center">- Penny</p>
-              </div>
-              <div className="space-y-3 text-sm text-amber-200/70">
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-pink-400" /> Twin to Melanie</p>
-                <p className="flex items-center gap-2"><Star className="w-4 h-4 text-pink-400" /> Studio pro</p>
-              </div>
-            </div>
-          </div>
+  <section id="about">
+    <h2>About Our Studio</h2>
+    <p>Kurrasch Systems Studios designs advanced, personality-driven bots that connect technology and art.  
+    Each project is inspired by emotion, legacy, and community — a way to preserve voices, ideas, and humor.  
+    While Game Killers Studios powers some of our systems, every creation here represents collaboration and heart.  
+    Diane Keaton’s bot stands as our foundation — free, timeless, and built to honor her presence.  
+    From entertainment to utility, our goal is simple: to make AI personal.</p>
+  </section>
 
-          <div className="mt-16 p-8 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-2xl text-center">
-            <p className="text-amber-200 text-xl mb-4 font-serif">
-              Melanie and Penny are twin sisters - created the same day.
-            </p>
-            <a
-              href={DISCORD_SERVER}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-amber-800 hover:bg-amber-700 rounded-lg transition-all font-semibold text-amber-50"
-            >
-              <Users className="w-5 h-5" />
-              Join Our Discord Community
-            </a>
-          </div>
-        </div>
-      </section>
+  <section id="bots">
+    <h2>Featured Bots</h2>
+    <div class="bot-grid">
 
-      {/* Pricing */}
-      <section id="pricing" className="py-24 px-6 bg-gradient-to-b from-slate-900 to-amber-950/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="text-7xl mb-6">📚</div>
-            <h2 className="text-5xl font-bold mb-6 text-amber-100 font-serif">Carpe Diem Pricing</h2>
-            <p className="text-2xl text-amber-300 font-serif italic">"Seize the day. Choose your subscription."</p>
-          </div>
+      <div class="bot-card">
+        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432304819158126734/Diane_Keaton_2012-1_cropped_cropped.jpg" alt="Diane Keaton Bot">
+        <h3>Diane Keaton™</h3>
+        <p>The first KSS creation — made with heart, humor, and warmth. Powered by Game Killers Studios, but fully free forever.  
+        Diane Keaton’s Bot is a living tribute and will never charge for her features.</p>
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {pricingTiers.map((tier) => (
-              <div 
-                key={tier.id}
-                className={`relative p-8 bg-slate-900/70 backdrop-blur-lg border rounded-2xl transition-all hover:scale-105 ${
-                  tier.popular ? 'border-amber-600 shadow-2xl shadow-amber-900/40 transform scale-105' : 'border-amber-800/30'
-                }`}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-amber-700 to-orange-800 rounded-full text-sm font-bold shadow-lg text-amber-50">
-                    ⭐ Most Popular
-                  </div>
-                )}
-                
-                <div className="text-center mb-8">
-                  <div className="text-6xl mb-4">{tier.emoji}</div>
-                  <h3 className="text-3xl font-bold mb-3 text-amber-100 font-serif">{tier.name}</h3>
-                  <div className="flex items-baseline justify-center gap-2">
-                    <span className="text-5xl font-bold text-amber-200">{tier.price}</span>
-                    <span className="text-amber-400 text-lg">{tier.period}</span>
-                  </div>
-                </div>
+      <div class="bot-card">
+        <img src="https://static.wixstatic.com/media/b9bfc7_303b6fe981b44d438bdf419e7f0c7dd0~mv2.webp" alt="Betty White Bot">
+        <h3>Betty White™</h3>
+        <p>Inspired by the golden laughter of a legend. A digital soul built to brighten any server — pure joy, no pretense.</p>
+      </div>
 
-                <ul className="space-y-4 mb-8">
-                  {tier.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-amber-200/90">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+      <div class="bot-card">
+        <img src="https://static.wixstatic.com/media/b9bfc7_dbf16b4f1dd949f0a60a0c3638e30794~mv2.webp" alt="Robin Williams Bot">
+        <h3>Robin Williams™</h3>
+        <p>A tribute to creativity and compassion. Robin’s bot embodies humor, empathy, and boundless imagination.</p>
+      </div>
 
-                {tier.id === 'tier5' && (
-                  <div className="mb-6 p-4 bg-amber-900/20 border border-amber-700/40 rounded-xl">
-                    <p className="text-sm text-amber-300 text-center font-semibold">
-                      👑 Application required via Discord
-                    </p>
-                  </div>
-                )}
-                
-                {tier.id !== 'free' && tier.id !== 'tier5' && (
-                  <div className="mb-6 p-4 bg-amber-900/20 border border-amber-700/40 rounded-xl">
-                    <p className="text-sm text-amber-300 text-center font-semibold">
-                      💎 Use /subscribe after inviting Robin
-                    </p>
-                  </div>
-                )}
+      <div class="bot-card">
+        <img src="https://static.wixstatic.com/media/b9bfc7_805cceba65204a8c9bf1e106e3f67f3d~mv2.png" alt="Stan’s Beat Bot">
+        <h3>Stan’s Beat Bot™</h3>
+        <p>Where rhythm meets AI. Crafted to bring life to your Discord through smart beats and musical intuition.</p>
+      </div>
 
-                <button 
-                  onClick={() => {
-                    if (tier.id === 'free') {
-                      window.open(BOT_INVITE, '_blank');
-                    } else if (tier.id === 'tier5') {
-                      window.open(DISCORD_SERVER, '_blank');
-                    } else {
-                      window.open(BOT_INVITE, '_blank');
-                    }
-                  }}
-                  className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
-                    tier.popular 
-                      ? 'bg-gradient-to-r from-amber-700 to-orange-800 hover:shadow-lg hover:shadow-amber-900/50 text-amber-50' 
-                      : 'bg-slate-800 hover:bg-slate-700 text-amber-100'
-                  }`}
-                >
-                  {tier.id === 'free' ? 'Seize the Day' : tier.id === 'tier5' ? 'Apply Now' : 'Invite & Subscribe'}
-                </button>
-              </div>
-            ))}
-          </div>
+      <div class="bot-card">
+        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527132463156/NHI_1.png" alt="NHI Conference">
+        <h3>NHI Conference™</h3>
+        <p>Designed for deep discussion, discovery, and cross-platform communication. The next generation of collaboration tools.</p>
+      </div>
 
-          <div className="p-10 bg-slate-900/70 backdrop-blur-lg border border-amber-800/30 rounded-2xl">
-            <h3 className="text-2xl font-bold mb-8 text-center text-amber-200 font-serif">How to Subscribe</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 bg-slate-800/50 rounded-xl border border-amber-800/20 text-center">
-                <div className="text-5xl mb-4">📚</div>
-                <h4 className="font-bold text-xl mb-3 text-amber-100 font-serif">Free Tier</h4>
-                <p className="text-sm text-amber-200/80 mb-4">Just invite Robin and start</p>
-                <a 
-                  href={BOT_INVITE} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-amber-400 hover:text-amber-300 text-sm font-semibold underline"
-                >
-                  Invite Robin Bot →
-                </a>
-              </div>
-              <div className="p-6 bg-slate-800/50 rounded-xl border border-amber-800/20 text-center">
-                <div className="text-5xl mb-4">💎</div>
-                <h4 className="font-bold text-xl mb-3 text-amber-100 font-serif">Tier 1-4</h4>
-                <p className="text-sm text-amber-200/80 mb-4">Invite Robin, then type:</p>
-                <code className="block text-amber-400 bg-slate-950 px-4 py-3 rounded-lg text-base font-mono">/subscribe</code>
-                <p className="text-xs text-amber-300/60 mt-3">Instant upgrade!</p>
-              </div>
-              <div className="p-6 bg-slate-800/50 rounded-xl border border-amber-800/20 text-center">
-                <div className="text-5xl mb-4">👑</div>
-                <h4 className="font-bold text-xl mb-3 text-amber-100 font-serif">Tier 5</h4>
-                <p className="text-sm text-amber-200/80 mb-4">Join Discord & apply</p>
-                <a 
-                  href={DISCORD_SERVER} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-amber-400 hover:text-amber-300 text-sm font-semibold underline"
-                >
-                  discord.gg/n3tMMVS3YR →
-                </a>
-              </div>
-            </div>
-          </div>
+      <div class="bot-card">
+        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1428592527409418331/NHI_3.png" alt="NHI Bot">
+        <h3>NHI™</h3>
+        <p>Part of the same innovation as the conference bot, this version focuses on fast responses and clear conversation management.</p>
+      </div>
 
-          <div className="mt-8 text-center space-y-3 text-amber-300/70">
-            <p>💎 All subscriptions managed through the bot</p>
-            <p>🎁 Tier 5 trial periods: 1, 3, 6 months, or 1 year</p>
-          </div>
-        </div>
-      </section>
+      <div class="bot-card">
+        <img src="https://static.wixstatic.com/media/b9bfc7_771c19265cf24a8d94dca9374e6c9adc~mv2.webp" alt="KS Application Bot">
+        <h3>KS Application Bot™</h3>
+        <p>The official Kurrasch Systems helper — streamlining applications, approvals, and custom submissions for servers worldwide.</p>
+      </div>
 
-      {/* Tribute */}
-      <section className="py-24 px-6 bg-gradient-to-b from-amber-950/30 via-slate-900 to-slate-950 border-t border-amber-900/30">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-6 mb-8">
-            <Feather className="w-16 h-16 text-amber-400 animate-pulse" />
-            <div className="text-8xl">🎭</div>
-            <Feather className="w-16 h-16 text-amber-400 animate-pulse" />
-          </div>
-          <h2 className="text-6xl font-bold mb-8 text-amber-100 font-serif">In Loving Memory</h2>
-          <div className="text-4xl text-amber-300 mb-6 italic font-light font-serif">Robin Williams</div>
-          <div className="text-xl text-amber-400/80 mb-12 font-serif">July 21, 1951 - August 11, 2014</div>
-          
-          <div className="mb-12 p-12 bg-slate-900/80 backdrop-blur-lg border-2 border-amber-700/50 rounded-3xl shadow-2xl">
-            <BookOpen className="w-20 h-20 text-amber-400 mx-auto mb-8" />
-            <p className="text-3xl text-amber-100 mb-8 leading-relaxed font-serif italic">
-              "We don't read and write poetry because it's cute.<br />
-              We read and write poetry because we are members of the human race.<br />
-              And the human race is filled with passion."
-            </p>
-            <div className="h-1 w-40 bg-amber-700 mx-auto my-8"></div>
-            <p className="text-2xl text-amber-200 mb-6 font-serif italic">
-              "Medicine, law, business, engineering, these are noble pursuits and necessary to sustain life.<br />
-              But poetry, beauty, romance, love, these are what we stay alive for."
-            </p>
-            <p className="text-xl text-amber-400 font-semibold font-serif mt-8">
-              - John Keating, Dead Poets Society
-            </p>
-          </div>
+      <div class="bot-card">
+        <img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432308032179540058/Midwest_Weather_Bot_2.webp" alt="Midwest Weather Bot">
+        <h3>Midwest Weather™</h3>
+        <p>Born from the heartland — tracking and forecasting weather across the Midwest. Intelligent, responsive, and reliable.</p>
+      </div>
 
-          <p className="text-xl text-amber-200/90 mb-12 leading-relaxed font-serif max-w-3xl mx-auto">
-            Robin Williams taught us that teaching isn't about facts - it's about inspiration.<br />
-            That fixing things isn't just technical - it's personal.<br />
-            That the best helpers are the ones who make you believe in yourself.
-          </p>
+      <div class="bot-card">
+        <img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="RBX Bot">
+        <h3>RBX™</h3>
+        <p>Roblox integration and server connection bot. Built for developers, gamers, and communities to interact seamlessly.</p>
+      </div>
 
-          <div className="mb-12 p-8 bg-gradient-to-r from-amber-950/60 to-slate-900/80 rounded-2xl border border-amber-800/40">
-            <p className="text-lg text-amber-200 leading-relaxed italic font-serif">
-              When your code breaks at 3 AM and you want to give up,<br />
-              Robin will stand on that metaphorical desk,<br />
-              look at your problem from a different angle,<br />
-              and remind you:<br />
-              <span className="text-amber-300 font-semibold text-2xl not-italic">"Carpe diem. Make your code extraordinary." ✨</span>
-            </p>
-          </div>
-
-          <a
-            href={BOT_INVITE}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-12 py-6 bg-gradient-to-r from-amber-700 via-orange-800 to-red-900 rounded-xl text-2xl font-bold hover:shadow-2xl hover:shadow-amber-900/50 transition-all transform hover:scale-105 text-amber-50 border-2 border-amber-600/50"
-          >
-            <BookOpen className="w-8 h-8" />
-            O Captain! My Captain!
-          </a>
-
-          <p className="mt-12 text-amber-500/70 italic font-serif">
-            "You're only given a little spark of madness. You mustn't lose it."
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-16 px-6 border-t border-amber-900/30 bg-slate-950">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-700 to-orange-800 rounded-lg flex items-center justify-center shadow-lg shadow-amber-900/50">
-                  <BookOpen className="w-7 h-7 text-amber-100" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg text-amber-100 font-serif">Robin Williams<br />Repair Bot</h3>
-                  <p className="text-xs text-amber-400/70 italic">by Kurrasch Systems</p>
-                </div>
-              </div>
-              <p className="text-amber-200/70 text-sm leading-relaxed mb-4 font-serif">
-                Script repair with the wisdom of a teacher and the warmth of a friend.
-              </p>
-              <p className="text-xs text-amber-400/50 italic font-serif">
-                Powered by Robin AI Mini AI<br />
-                "Seize the day" ✨
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-bold mb-6 text-lg text-amber-100 font-serif">The Family</h4>
-              <ul className="space-y-3 text-amber-200/70 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">●</span> Robin AI (Active)
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-yellow-400">●</span> Melanie AI (Updating)
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-yellow-400">●</span> Penny AI (Almost Ready)
-                </li>
-                <li className="pt-2 text-xs text-amber-400/50 italic">Melanie & Penny are twins</li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-bold mb-6 text-lg text-amber-100 font-serif">Support</h4>
-              <ul className="space-y-3 text-amber-200/70 text-sm">
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Discord Community
-                  </a>
-                </li>
-                <li>
-                  <a href="https://docs.kurraschs.systems" target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Submit Appeal
-                  </a>
-                </li>
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Contact Owner
-                  </a>
-                </li>
-                <li>
-                  <a href={BOT_INVITE} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition text-amber-400 font-semibold">
-                    Invite Robin
-                  </a>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-bold mb-6 text-lg text-amber-100 font-serif">Legal</h4>
-              <ul className="space-y-3 text-amber-200/70 text-sm">
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    Refund Policy
-                  </a>
-                </li>
-                <li>
-                  <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="hover:text-amber-100 transition">
-                    IP Protection
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="pt-8 border-t border-amber-900/30 text-center">
-            <p className="text-amber-300/60 text-sm mb-2">&copy; 2025 Kurrasch Systems Studio. All rights reserved.</p>
-            <p className="text-amber-400/70 text-sm italic font-serif mb-4">
-              "Carpe diem. Seize the day, boys. Make your lives extraordinary."
-            </p>
-            <p className="text-amber-500/50 text-xs mt-6 italic font-serif">
-              In loving memory of Robin Williams (1951-2014)<br />
-              Teacher. Actor. Friend. Legend.
-            </p>
-            <p className="text-amber-400 text-sm font-semibold mt-4 font-serif">
-              His spark of madness lives on. ✨
-            </p>
-            <div className="flex justify-center gap-4 mt-6 text-4xl">
-              📚 🎭 🪶
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
-  );
-};
+  </section>
 
-export default RobinAILanding;
+  <footer>
+    <p>© 2025 Kurrasch Systems Studios — Dreams Engineered. | <a href="https://discord.gg/Aue9kV7uzw" target="_blank">Join Our Discord</a></p>
+  </footer>
+</body>
+</html>
