@@ -371,129 +371,100 @@ The website will reflect the same gaming-edge design as the bot — sleek, dark,
 </main>
 
 <script>
+src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js">
+<canvas id="matrix-canvas"></canvas>
 /* ===========================
-   Matrix Canvas - Binary Rain (0s red, 1s baby blue + letters)
+   Matrix Canvas - Binary Rain 3D
    =========================== */
 (function(){
   const canvas = document.getElementById('matrix-canvas');
-  const ctx = canvas.getContext('2d', { alpha: false });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false });
+  let W = window.innerWidth;
+  let H = window.innerHeight;
+  renderer.setSize(W, H);
 
-  let W = 0, H = 0;
-  let cols = [];
-  let font = 18;
-  let colsCount = 0;
-  let raf = null;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000);
+  camera.position.z = 50;
 
-  // Theme-aware colors
+  let drops = [];
+  const charsPool = ['0','1','A','B','C','D','E','F','G','H','I','J','K'];
+
   function getColors() {
     const isDark = document.body.getAttribute('data-theme') === 'dark';
     return {
-      bg: isDark ? '#03030a' : '#f8f9fd',
-      fadeAlpha: isDark ? 0.08 : 0.12,
-      '0': '#ff3333',
-      '1': '#66ccff',
-      'A': '#ff3333',
-      'B': '#66ccff',
-      'C': '#ff3333',
-      'D': '#66ccff',
-      'E': '#ff3333',
-      'F': '#66ccff',
-      'G': '#ff3333',
-      'H': '#66ccff',
-      'I': '#ff3333',
-      'J': '#66ccff',
-      'K': '#ff3333'
+      bg: isDark ? 0x03030a : 0xf8f9fd,
+      '0': 0xff3333,
+      '1': 0x66ccff,
+      'A': 0xff3333,
+      'B': 0x66ccff,
+      'C': 0xff3333,
+      'D': 0x66ccff,
+      'E': 0xff3333,
+      'F': 0x66ccff,
+      'G': 0xff3333,
+      'H': 0x66ccff,
+      'I': 0xff3333,
+      'J': 0x66ccff,
+      'K': 0xff3333
     };
   }
 
-  function init(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-
-    font = Math.max(14, Math.min(24, Math.floor(W / 70)));
-    colsCount = Math.floor(W / (font * 0.6));
-    if (W < 420) colsCount = Math.floor(W / (font * 1.1));
-
-    cols = new Array(colsCount).fill(0).map((_, i) => {
-      return {
-        x: Math.floor(i * (W / colsCount)),
-        y: Math.random() * -H,
-        speed: (Math.random() * 1.2 + 0.8) * (font / 16),
-        chars: []
-      };
-    });
-
-    ctx.font = `${font}px "Courier New", monospace`;
-    ctx.textBaseline = 'top';
-  }
-
-  function fadeBackground(){
+  function initDrops() {
     const colors = getColors();
-    ctx.fillStyle = colors.bg;
-    ctx.globalAlpha = colors.fadeAlpha;
-    ctx.fillRect(0, 0, W, H);
-    ctx.globalAlpha = 1;
-  }
+    const fontSize = Math.max(14, Math.min(24, Math.floor(W / 70)));
+    drops = [];
 
-  function drawChar(ch, x, y, color, alpha){
-    ctx.save();
-    ctx.shadowColor = color;
-    ctx.shadowBlur = font * 0.8;
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = color;
-    ctx.fillText(ch, x, y);
-    ctx.restore();
-  }
-
-  function step(){
-    const colors = getColors();
-    fadeBackground();
-
-    const charsPool = ['0','1','A','B','C','D','E','F','G','H','I','J','K'];
-
-    for (let i = 0; i < colsCount; i++){
-      const c = cols[i];
-      const trailLen = Math.floor(Math.random() * 15 + 10);
-
-      for (let s = 0; s < trailLen; s++){
-        const posY = c.y - (s * font);
-        if (posY > -font && posY < H + font){
-          const char = charsPool[Math.floor(Math.random() * charsPool.length)];
-          const color = colors[char] || '#66ccff';
-          const alpha = Math.max(0.15, 1 - (s / trailLen));
-          drawChar(char, c.x, posY, color, alpha);
-        }
-      }
-
-      c.y += c.speed;
-
-      if (c.y > H + Math.random() * 400) {
-        c.y = -Math.random() * 300;
-        c.speed = (Math.random() * 1.2 + 0.8) * (font / 16);
-      }
+    for (let i = 0; i < 50; i++) { // 50 letters/column drops
+      const char = charsPool[Math.floor(Math.random() * charsPool.length)];
+      const material = new THREE.MeshBasicMaterial({ color: colors[char] });
+      const geometry = new THREE.TextGeometry(char, {
+        size: fontSize * 0.08,
+        height: 0.5,
+        curveSegments: 2
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      // spread across X, Y, Z to simulate two 3D columns
+      mesh.position.set(
+        (i % 2 === 0 ? -20 : 20) + (Math.random()-0.5)*10, 
+        Math.random()*50 - 25, 
+        Math.random()*30 - 15
+      );
+      mesh.userData = { speed: Math.random()*0.5 + 0.2 }; // falling speed
+      scene.add(mesh);
+      drops.push(mesh);
     }
-
-    raf = requestAnimationFrame(step);
   }
 
-  function start(){
-    cancelAnimationFrame(raf);
-    init();
+  function fadeBackground() {
     const colors = getColors();
-    ctx.fillStyle = colors.bg;
-    ctx.fillRect(0, 0, W, H);
-    step();
+    renderer.setClearColor(colors.bg, 1);
   }
 
-  let rt;
-  window.addEventListener('resize', ()=> {
-    clearTimeout(rt);
-    rt = setTimeout(()=> start(), 150);
-  });
+  function animate() {
+    requestAnimationFrame(animate);
+    drops.forEach(d => {
+      d.position.y -= d.userData.speed;
+      if (d.position.y < -30) d.position.y = 30; // reset drop to top
+    });
+    renderer.render(scene, camera);
+  }
 
-  document.addEventListener('visibilitychange', ()=>{
-    if (document.hidden) cancelAnimationFrame(raf);
-    else start();
+  function start() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    renderer.setSize(W, H);
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    fadeBackground();
+    initDrops();
+    animate();
+  }
+
+  window.addEventListener('resize', () => start());
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) start();
   });
 
   // Listen for theme changes
@@ -502,7 +473,6 @@ The website will reflect the same gaming-edge design as the bot — sleek, dark,
 
   start();
 })();
-
 /* ===========================
    Theme toggle & instant-anchor nav (no smooth scroll)
    =========================== */
