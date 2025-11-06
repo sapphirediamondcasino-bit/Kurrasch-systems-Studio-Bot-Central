@@ -316,11 +316,40 @@
         <div class="meta"><span class="pill">Regional forecasts</span></div>
       </article>
 
-      <!-- RBX -->
+      <!-- Roblox Society -->
       <article class="bot" role="listitem" aria-labelledby="rbx-title">
-        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1432302087319978096/KSS_BOT.png?ex=69008ec4&is=68ff3d44&hm=8e7e9c13a8f264b5365f423a9033f76b6d9de6cc600cf3ff39fe63ebc2d7dab8&" alt="RBX bot image"></div>
-        <h3 id="rbx-title">RBX™</h3>
-        <p>RBX is a comprehensive toolkit for community documentation and server guidance — a clean, organized reference hub that makes finding resources fast and intuitive. Inspired by professional documentation platforms, RBX helps players and moderators access the information they need without digging through channels.</p>
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1435972278461661357/Roblox_Society_2.0.png?ex=690de8e6&is=690c9766&hm=e535dbf328ca8b87b6af9c731e655d236a0896e4221cbd25684e10e92a7e2a33&" alt="RBX bot image"></div>
+        <h3 id="rbx-title">Roblox Society™</h3>
+        <p>Roblox Society is a full-featured toolkit designed for Roblox communities — combining powerful utilities, player tools, and moderation systems into one seamless platform. With features like user and group lookups, avatar and outfit renders, marketplace and limited-item data, and advanced role systems, Roblox Society makes community management faster, cleaner, and more intuitive. Built with a focus on clarity and speed, it helps players and moderators access everything they need.</p>
+        <div class="meta"><span class="pill">Docs & guidance</span><span class="pill">Reference hub</span></div>
+      </article>
+
+      <!-- Portal-X -->
+      <article class="bot" role="listitem" aria-labelledby="rbx-title">
+        <div class="img"><img src="https://cdn.discordapp.com/attachments/1428592257581318255/1436100607030202449/Portal-X2.0.png?ex=690e606a&is=690d0eea&hm=b05c6611a80343bec63523ecfbcdff02c3c5fae9176ad10713771f45b84079c6&" alt="RBX bot image"></div>
+        <h3 id="rbx-title">Portal-X™</h3>
+        <p>Coming Portal-X is an advanced next-generation Discord bot built to push the limits of what’s possible in-server. It isn’t just another game bot — it’s a complete gaming ecosystem that creates, hosts, and runs real-time playable games directly inside Discord through interactive embeds and dynamic visuals.
+
+Powered by adaptive scripting and AI-driven logic, Portal-X can generate and manage five fully interactive game sectors, each featuring unique multiplayer experiences — from Roblox-style RPGs and tower defenses to fast-paced FPS simulations and classic Flash-revived titles.
+
+Every game is native to its home server, with permissions tightly controlled: only staff, admins, and the owner have management access, while players enjoy seamless, controlled gameplay sessions that evolve as the bot updates its environments in real time.
+
+Portal-X isn’t just made to play games — it’s built to redefine them.🌐 The Future of Portal-X
+
+A full Portal-X web platform is currently in development.
+The site will serve as the command hub and community hub for:
+
+Managing server game worlds
+
+Uploading and sharing custom game scripts
+
+Launching cross-server events
+
+Accessing game stats, leaderboards, and development logs
+
+Testing experimental game builds and tools before Discord deployment
+
+The website will reflect the same gaming-edge design as the bot — sleek, dark, futuristic, and built for creators and players alike.</p>
         <div class="meta"><span class="pill">Docs & guidance</span><span class="pill">Reference hub</span></div>
       </article>
 
@@ -361,7 +390,18 @@
       bg: isDark ? '#03030a' : '#f8f9fd',
       fadeAlpha: isDark ? 0.08 : 0.12,
       '0': '#ff3333',
-      '1': '#66ccff'
+      '1': '#66ccff',
+      'A': '#ff3333',
+      'B': '#66ccff',
+      'C': '#ff3333',
+      'D': '#66ccff',
+      'E': '#ff3333',
+      'F': '#66ccff',
+      'G': '#ff3333',
+      'H': '#66ccff',
+      'I': '#ff3333',
+      'J': '#66ccff',
+      'K': '#ff3333'
     };
   }
 
@@ -416,7 +456,7 @@
       for (let s = 0; s < trailLen; s++){
         const posY = c.y - (s * font);
         if (posY > -font && posY < H + font){
-          const char = Math.random() > 0.5 ? '1' : '0';
+          const char = Math.random() > 0.5 ? '1' : '0' : 'A' :'B' : 'C' :'D' : 'E' : 'F' : 'G' : 'H' : 'I' 'J' : 'K';
           const color = colors[char];
           const alpha = Math.max(0.15, 1 - (s / trailLen));
           drawChar(char, c.x, posY, color, alpha);
