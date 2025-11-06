@@ -334,7 +334,8 @@ Powered by adaptive scripting and AI-driven logic, Portal-X can generate and man
 
 Every game is native to its home server, with permissions tightly controlled: only staff, admins, and the owner have management access, while players enjoy seamless, controlled gameplay sessions that evolve as the bot updates its environments in real time.
 
-Portal-X isn’t just made to play games — it’s built to redefine them.🌐 The Future of Portal-X
+Portal-X isn’t just made to play games — it’s built to redefine them.
+          🌐 The Future of Portal-X
 
 A full Portal-X web platform is currently in development.
 The site will serve as the command hub and community hub for:
@@ -371,7 +372,7 @@ The website will reflect the same gaming-edge design as the bot — sleek, dark,
 
 <script>
 /* ===========================
-   Matrix Canvas - Binary Rain (0s red, 1s baby blue)
+   Matrix Canvas - Binary Rain (0s red, 1s baby blue + letters)
    =========================== */
 (function(){
   const canvas = document.getElementById('matrix-canvas');
@@ -446,18 +447,19 @@ The website will reflect the same gaming-edge design as the bot — sleek, dark,
 
   function step(){
     const colors = getColors();
-    
     fadeBackground();
+
+    const charsPool = ['0','1','A','B','C','D','E','F','G','H','I','J','K'];
 
     for (let i = 0; i < colsCount; i++){
       const c = cols[i];
-      
       const trailLen = Math.floor(Math.random() * 15 + 10);
+
       for (let s = 0; s < trailLen; s++){
         const posY = c.y - (s * font);
         if (posY > -font && posY < H + font){
-          const char = Math.random() > 0.5 ? '1' : '0' : 'A' :'B' : 'C' :'D' : 'E' : 'F' : 'G' : 'H' : 'I' 'J' : 'K';
-          const color = colors[char];
+          const char = charsPool[Math.floor(Math.random() * charsPool.length)];
+          const color = colors[char] || '#66ccff';
           const alpha = Math.max(0.15, 1 - (s / trailLen));
           drawChar(char, c.x, posY, color, alpha);
         }
